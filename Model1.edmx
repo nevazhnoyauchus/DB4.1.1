@@ -1,0 +1,705 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище AlenaDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Animals">
+          <Key>
+            <PropertyRef Name="animalsID" />
+          </Key>
+          <Property Name="animalsID" Type="int" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="FoodFirm">
+          <Key>
+            <PropertyRef Name="firmID" />
+          </Key>
+          <Property Name="firmID" Type="int" Nullable="false" />
+          <Property Name="firmName" Type="nchar" MaxLength="20" />
+          <Property Name="priceFood" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="idGender" />
+          </Key>
+          <Property Name="idGender" Type="int" Nullable="false" />
+          <Property Name="gender" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="PetCharacter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="petID" Type="int" Nullable="false" />
+          <Property Name="charID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PetFood">
+          <Key>
+            <PropertyRef Name="feedID" />
+          </Key>
+          <Property Name="feedID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="petID" Type="int" Nullable="false" />
+          <Property Name="firmID" Type="int" Nullable="false" />
+          <Property Name="kolMonth" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PetGender">
+          <Key>
+            <PropertyRef Name="petGenderID" />
+          </Key>
+          <Property Name="petGenderID" Type="int" Nullable="false" />
+          <Property Name="petGender" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="PetPass">
+          <Key>
+            <PropertyRef Name="petID" />
+          </Key>
+          <Property Name="petID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="petname" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="animalsID" Type="int" Nullable="false" />
+          <Property Name="price" Type="int" Nullable="false" />
+          <Property Name="birthdate" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="petGenderID" Type="int" Nullable="false" />
+          <Property Name="photo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PetTraits">
+          <Key>
+            <PropertyRef Name="charID" />
+          </Key>
+          <Property Name="charID" Type="int" Nullable="false" />
+          <Property Name="charname" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="idRole" />
+          </Key>
+          <Property Name="idRole" Type="int" Nullable="false" />
+          <Property Name="role" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nchar" MaxLength="20" />
+          <Property Name="surname" Type="nchar" MaxLength="20" />
+          <Property Name="login" Type="nchar" MaxLength="20" />
+          <Property Name="idGender" Type="int" />
+          <Property Name="idRole" Type="int" />
+          <Property Name="password" Type="int" />
+        </EntityType>
+        <EntityType Name="UsersPhoto">
+          <Key>
+            <PropertyRef Name="IDUser" />
+          </Key>
+          <Property Name="IDUser" Type="int" Nullable="false" />
+          <Property Name="PhotoPath" Type="nchar" MaxLength="100" />
+          <Property Name="PhotoBinary" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_PetCharacter_PetPass">
+          <End Role="PetPass" Type="Self.PetPass" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PetCharacter" Type="Self.PetCharacter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetPass">
+              <PropertyRef Name="petID" />
+            </Principal>
+            <Dependent Role="PetCharacter">
+              <PropertyRef Name="petID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetCharacter_PetTraits">
+          <End Role="PetTraits" Type="Self.PetTraits" Multiplicity="1" />
+          <End Role="PetCharacter" Type="Self.PetCharacter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetTraits">
+              <PropertyRef Name="charID" />
+            </Principal>
+            <Dependent Role="PetCharacter">
+              <PropertyRef Name="charID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetFood_FoodFirm">
+          <End Role="FoodFirm" Type="Self.FoodFirm" Multiplicity="1" />
+          <End Role="PetFood" Type="Self.PetFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodFirm">
+              <PropertyRef Name="firmID" />
+            </Principal>
+            <Dependent Role="PetFood">
+              <PropertyRef Name="firmID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetFood_PetPass">
+          <End Role="PetPass" Type="Self.PetPass" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="PetFood" Type="Self.PetFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetPass">
+              <PropertyRef Name="petID" />
+            </Principal>
+            <Dependent Role="PetFood">
+              <PropertyRef Name="petID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetPass_Animals">
+          <End Role="Animals" Type="Self.Animals" Multiplicity="1" />
+          <End Role="PetPass" Type="Self.PetPass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animals">
+              <PropertyRef Name="animalsID" />
+            </Principal>
+            <Dependent Role="PetPass">
+              <PropertyRef Name="animalsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetPass_PetGender">
+          <End Role="PetGender" Type="Self.PetGender" Multiplicity="1" />
+          <End Role="PetPass" Type="Self.PetPass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetGender">
+              <PropertyRef Name="petGenderID" />
+            </Principal>
+            <Dependent Role="PetPass">
+              <PropertyRef Name="petGenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="idGender" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="idGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="idRole" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="idRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersPhoto_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UsersPhoto" Type="Self.UsersPhoto" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="UsersPhoto">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AlenaDBModelContainer">
+          <EntitySet Name="Animals" EntityType="Self.Animals" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodFirm" EntityType="Self.FoodFirm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetCharacter" EntityType="Self.PetCharacter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetFood" EntityType="Self.PetFood" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetGender" EntityType="Self.PetGender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetPass" EntityType="Self.PetPass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PetTraits" EntityType="Self.PetTraits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsersPhoto" EntityType="Self.UsersPhoto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PetCharacter_PetPass" Association="Self.FK_PetCharacter_PetPass">
+            <End Role="PetPass" EntitySet="PetPass" />
+            <End Role="PetCharacter" EntitySet="PetCharacter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetCharacter_PetTraits" Association="Self.FK_PetCharacter_PetTraits">
+            <End Role="PetTraits" EntitySet="PetTraits" />
+            <End Role="PetCharacter" EntitySet="PetCharacter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetFood_FoodFirm" Association="Self.FK_PetFood_FoodFirm">
+            <End Role="FoodFirm" EntitySet="FoodFirm" />
+            <End Role="PetFood" EntitySet="PetFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetFood_PetPass" Association="Self.FK_PetFood_PetPass">
+            <End Role="PetPass" EntitySet="PetPass" />
+            <End Role="PetFood" EntitySet="PetFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetPass_Animals" Association="Self.FK_PetPass_Animals">
+            <End Role="Animals" EntitySet="Animals" />
+            <End Role="PetPass" EntitySet="PetPass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetPass_PetGender" Association="Self.FK_PetPass_PetGender">
+            <End Role="PetGender" EntitySet="PetGender" />
+            <End Role="PetPass" EntitySet="PetPass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Gender" Association="Self.FK_Users_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role" Association="Self.FK_Users_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersPhoto_Users" Association="Self.FK_UsersPhoto_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersPhoto" EntitySet="UsersPhoto" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AlenaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Animals" EntityType="AlenaDBModel.Animals" />
+          <EntitySet Name="FoodFirm" EntityType="AlenaDBModel.FoodFirm" />
+          <EntitySet Name="Gender" EntityType="AlenaDBModel.Gender" />
+          <EntitySet Name="PetCharacter" EntityType="AlenaDBModel.PetCharacter" />
+          <EntitySet Name="PetFood" EntityType="AlenaDBModel.PetFood" />
+          <EntitySet Name="PetGender" EntityType="AlenaDBModel.PetGender" />
+          <EntitySet Name="PetPass" EntityType="AlenaDBModel.PetPass" />
+          <EntitySet Name="PetTraits" EntityType="AlenaDBModel.PetTraits" />
+          <EntitySet Name="Role" EntityType="AlenaDBModel.Role" />
+          <EntitySet Name="Users" EntityType="AlenaDBModel.Users" />
+          <EntitySet Name="UsersPhoto" EntityType="AlenaDBModel.UsersPhoto" />
+          <AssociationSet Name="FK_PetPass_Animals" Association="AlenaDBModel.FK_PetPass_Animals">
+            <End Role="Animals" EntitySet="Animals" />
+            <End Role="PetPass" EntitySet="PetPass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetFood_FoodFirm" Association="AlenaDBModel.FK_PetFood_FoodFirm">
+            <End Role="FoodFirm" EntitySet="FoodFirm" />
+            <End Role="PetFood" EntitySet="PetFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Gender" Association="AlenaDBModel.FK_Users_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetCharacter_PetPass" Association="AlenaDBModel.FK_PetCharacter_PetPass">
+            <End Role="PetPass" EntitySet="PetPass" />
+            <End Role="PetCharacter" EntitySet="PetCharacter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetCharacter_PetTraits" Association="AlenaDBModel.FK_PetCharacter_PetTraits">
+            <End Role="PetTraits" EntitySet="PetTraits" />
+            <End Role="PetCharacter" EntitySet="PetCharacter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetFood_PetPass" Association="AlenaDBModel.FK_PetFood_PetPass">
+            <End Role="PetPass" EntitySet="PetPass" />
+            <End Role="PetFood" EntitySet="PetFood" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PetPass_PetGender" Association="AlenaDBModel.FK_PetPass_PetGender">
+            <End Role="PetGender" EntitySet="PetGender" />
+            <End Role="PetPass" EntitySet="PetPass" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Role" Association="AlenaDBModel.FK_Users_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UsersPhoto_Users" Association="AlenaDBModel.FK_UsersPhoto_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UsersPhoto" EntitySet="UsersPhoto" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Animals">
+          <Key>
+            <PropertyRef Name="animalsID" />
+          </Key>
+          <Property Name="animalsID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="PetPass" Relationship="AlenaDBModel.FK_PetPass_Animals" FromRole="Animals" ToRole="PetPass" />
+        </EntityType>
+        <EntityType Name="FoodFirm">
+          <Key>
+            <PropertyRef Name="firmID" />
+          </Key>
+          <Property Name="firmID" Type="Int32" Nullable="false" />
+          <Property Name="firmName" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="priceFood" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PetFood" Relationship="AlenaDBModel.FK_PetFood_FoodFirm" FromRole="FoodFirm" ToRole="PetFood" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="idGender" />
+          </Key>
+          <Property Name="idGender" Type="Int32" Nullable="false" />
+          <Property Name="gender1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="AlenaDBModel.FK_Users_Gender" FromRole="Gender" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="PetCharacter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="petID" Type="Int32" Nullable="false" />
+          <Property Name="charID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PetPass" Relationship="AlenaDBModel.FK_PetCharacter_PetPass" FromRole="PetCharacter" ToRole="PetPass" />
+          <NavigationProperty Name="PetTraits" Relationship="AlenaDBModel.FK_PetCharacter_PetTraits" FromRole="PetCharacter" ToRole="PetTraits" />
+        </EntityType>
+        <EntityType Name="PetFood">
+          <Key>
+            <PropertyRef Name="feedID" />
+          </Key>
+          <Property Name="feedID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="petID" Type="Int32" Nullable="false" />
+          <Property Name="firmID" Type="Int32" Nullable="false" />
+          <Property Name="kolMonth" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FoodFirm" Relationship="AlenaDBModel.FK_PetFood_FoodFirm" FromRole="PetFood" ToRole="FoodFirm" />
+          <NavigationProperty Name="PetPass" Relationship="AlenaDBModel.FK_PetFood_PetPass" FromRole="PetFood" ToRole="PetPass" />
+        </EntityType>
+        <EntityType Name="PetGender">
+          <Key>
+            <PropertyRef Name="petGenderID" />
+          </Key>
+          <Property Name="petGenderID" Type="Int32" Nullable="false" />
+          <Property Name="petGender1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="PetPass" Relationship="AlenaDBModel.FK_PetPass_PetGender" FromRole="PetGender" ToRole="PetPass" />
+        </EntityType>
+        <EntityType Name="PetPass">
+          <Key>
+            <PropertyRef Name="petID" />
+          </Key>
+          <Property Name="petID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="petname" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="animalsID" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Int32" Nullable="false" />
+          <Property Name="birthdate" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="petGenderID" Type="Int32" Nullable="false" />
+          <Property Name="photo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Animals" Relationship="AlenaDBModel.FK_PetPass_Animals" FromRole="PetPass" ToRole="Animals" />
+          <NavigationProperty Name="PetCharacter" Relationship="AlenaDBModel.FK_PetCharacter_PetPass" FromRole="PetPass" ToRole="PetCharacter" />
+          <NavigationProperty Name="PetFood" Relationship="AlenaDBModel.FK_PetFood_PetPass" FromRole="PetPass" ToRole="PetFood" />
+          <NavigationProperty Name="PetGender" Relationship="AlenaDBModel.FK_PetPass_PetGender" FromRole="PetPass" ToRole="PetGender" />
+        </EntityType>
+        <EntityType Name="PetTraits">
+          <Key>
+            <PropertyRef Name="charID" />
+          </Key>
+          <Property Name="charID" Type="Int32" Nullable="false" />
+          <Property Name="charname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PetCharacter" Relationship="AlenaDBModel.FK_PetCharacter_PetTraits" FromRole="PetTraits" ToRole="PetCharacter" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="idRole" />
+          </Key>
+          <Property Name="idRole" Type="Int32" Nullable="false" />
+          <Property Name="role1" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="AlenaDBModel.FK_Users_Role" FromRole="Role" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="surname" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="idGender" Type="Int32" />
+          <Property Name="idRole" Type="Int32" />
+          <Property Name="password" Type="Int32" />
+          <NavigationProperty Name="Gender" Relationship="AlenaDBModel.FK_Users_Gender" FromRole="Users" ToRole="Gender" />
+          <NavigationProperty Name="Role" Relationship="AlenaDBModel.FK_Users_Role" FromRole="Users" ToRole="Role" />
+          <NavigationProperty Name="UsersPhoto" Relationship="AlenaDBModel.FK_UsersPhoto_Users" FromRole="Users" ToRole="UsersPhoto" />
+        </EntityType>
+        <EntityType Name="UsersPhoto">
+          <Key>
+            <PropertyRef Name="IDUser" />
+          </Key>
+          <Property Name="IDUser" Type="Int32" Nullable="false" />
+          <Property Name="PhotoPath" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="PhotoBinary" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Users" Relationship="AlenaDBModel.FK_UsersPhoto_Users" FromRole="UsersPhoto" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_PetPass_Animals">
+          <End Type="AlenaDBModel.Animals" Role="Animals" Multiplicity="1" />
+          <End Type="AlenaDBModel.PetPass" Role="PetPass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animals">
+              <PropertyRef Name="animalsID" />
+            </Principal>
+            <Dependent Role="PetPass">
+              <PropertyRef Name="animalsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetFood_FoodFirm">
+          <End Type="AlenaDBModel.FoodFirm" Role="FoodFirm" Multiplicity="1" />
+          <End Type="AlenaDBModel.PetFood" Role="PetFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FoodFirm">
+              <PropertyRef Name="firmID" />
+            </Principal>
+            <Dependent Role="PetFood">
+              <PropertyRef Name="firmID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Gender">
+          <End Type="AlenaDBModel.Gender" Role="Gender" Multiplicity="0..1" />
+          <End Type="AlenaDBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="idGender" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="idGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetCharacter_PetPass">
+          <End Type="AlenaDBModel.PetPass" Role="PetPass" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AlenaDBModel.PetCharacter" Role="PetCharacter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetPass">
+              <PropertyRef Name="petID" />
+            </Principal>
+            <Dependent Role="PetCharacter">
+              <PropertyRef Name="petID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetCharacter_PetTraits">
+          <End Type="AlenaDBModel.PetTraits" Role="PetTraits" Multiplicity="1" />
+          <End Type="AlenaDBModel.PetCharacter" Role="PetCharacter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetTraits">
+              <PropertyRef Name="charID" />
+            </Principal>
+            <Dependent Role="PetCharacter">
+              <PropertyRef Name="charID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetFood_PetPass">
+          <End Type="AlenaDBModel.PetPass" Role="PetPass" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AlenaDBModel.PetFood" Role="PetFood" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetPass">
+              <PropertyRef Name="petID" />
+            </Principal>
+            <Dependent Role="PetFood">
+              <PropertyRef Name="petID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PetPass_PetGender">
+          <End Type="AlenaDBModel.PetGender" Role="PetGender" Multiplicity="1" />
+          <End Type="AlenaDBModel.PetPass" Role="PetPass" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PetGender">
+              <PropertyRef Name="petGenderID" />
+            </Principal>
+            <Dependent Role="PetPass">
+              <PropertyRef Name="petGenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Role">
+          <End Type="AlenaDBModel.Role" Role="Role" Multiplicity="0..1" />
+          <End Type="AlenaDBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="idRole" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="idRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UsersPhoto_Users">
+          <End Type="AlenaDBModel.Users" Role="Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AlenaDBModel.UsersPhoto" Role="UsersPhoto" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="UsersPhoto">
+              <PropertyRef Name="IDUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AlenaDBModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AlenaDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Animals">
+            <EntityTypeMapping TypeName="AlenaDBModel.Animals">
+              <MappingFragment StoreEntitySet="Animals">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="animalsID" ColumnName="animalsID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodFirm">
+            <EntityTypeMapping TypeName="AlenaDBModel.FoodFirm">
+              <MappingFragment StoreEntitySet="FoodFirm">
+                <ScalarProperty Name="priceFood" ColumnName="priceFood" />
+                <ScalarProperty Name="firmName" ColumnName="firmName" />
+                <ScalarProperty Name="firmID" ColumnName="firmID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gender">
+            <EntityTypeMapping TypeName="AlenaDBModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="gender1" ColumnName="gender" />
+                <ScalarProperty Name="idGender" ColumnName="idGender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetCharacter">
+            <EntityTypeMapping TypeName="AlenaDBModel.PetCharacter">
+              <MappingFragment StoreEntitySet="PetCharacter">
+                <ScalarProperty Name="charID" ColumnName="charID" />
+                <ScalarProperty Name="petID" ColumnName="petID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetFood">
+            <EntityTypeMapping TypeName="AlenaDBModel.PetFood">
+              <MappingFragment StoreEntitySet="PetFood">
+                <ScalarProperty Name="kolMonth" ColumnName="kolMonth" />
+                <ScalarProperty Name="firmID" ColumnName="firmID" />
+                <ScalarProperty Name="petID" ColumnName="petID" />
+                <ScalarProperty Name="feedID" ColumnName="feedID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetGender">
+            <EntityTypeMapping TypeName="AlenaDBModel.PetGender">
+              <MappingFragment StoreEntitySet="PetGender">
+                <ScalarProperty Name="petGender1" ColumnName="petGender" />
+                <ScalarProperty Name="petGenderID" ColumnName="petGenderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetPass">
+            <EntityTypeMapping TypeName="AlenaDBModel.PetPass">
+              <MappingFragment StoreEntitySet="PetPass">
+                <ScalarProperty Name="photo" ColumnName="photo" />
+                <ScalarProperty Name="petGenderID" ColumnName="petGenderID" />
+                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="animalsID" ColumnName="animalsID" />
+                <ScalarProperty Name="petname" ColumnName="petname" />
+                <ScalarProperty Name="petID" ColumnName="petID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PetTraits">
+            <EntityTypeMapping TypeName="AlenaDBModel.PetTraits">
+              <MappingFragment StoreEntitySet="PetTraits">
+                <ScalarProperty Name="charname" ColumnName="charname" />
+                <ScalarProperty Name="charID" ColumnName="charID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="AlenaDBModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="role1" ColumnName="role" />
+                <ScalarProperty Name="idRole" ColumnName="idRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AlenaDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="idRole" ColumnName="idRole" />
+                <ScalarProperty Name="idGender" ColumnName="idGender" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsersPhoto">
+            <EntityTypeMapping TypeName="AlenaDBModel.UsersPhoto">
+              <MappingFragment StoreEntitySet="UsersPhoto">
+                <ScalarProperty Name="PhotoBinary" ColumnName="PhotoBinary" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="IDUser" ColumnName="IDUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

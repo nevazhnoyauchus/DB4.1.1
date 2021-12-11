@@ -1,0 +1,81 @@
+﻿<Page x:Class="database2.Pages.ListAnimalsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:database2.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ListAnimalsPage">
+    <Page.Resources>
+        <BitmapImage x:Key="defaultimage" UriSource="/Resources/а.png"></BitmapImage>
+    </Page.Resources>
+    <ScrollViewer>
+
+        <Grid>
+
+            <StackPanel>
+                <ListView Name="LVAnimals" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel HorizontalAlignment="Center"></WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="5" CornerRadius="5" BorderThickness="1" BorderBrush="LightPink" Background="{Binding GenColor}">
+                                <Grid Width="300" Height="310">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding PetGenger}"></TextBlock>
+                                        <TextBlock Text="{Binding Animals.name}"></TextBlock>
+                                        <TextBlock Text="{Binding birthdate}"></TextBlock>
+                                        <TextBlock Loaded="TextBlock_Loaded" Uid="{Binding petID}"></TextBlock>
+                                        <Image Source="{Binding photo, TargetNullValue={StaticResource defaultimage}}" Height="150" Width="350"/>
+                                        <TextBlock>Цена:</TextBlock>
+                                        <TextBlock Text="{Binding price}">рублей</TextBlock>
+                                        <TextBlock Loaded="TextBlock_Loaded_1" Uid="{Binding petID}"></TextBlock>
+                                        <Button Uid="{Binding petID}" Name="Update" Click="Update_Click">Редактировать</Button>
+                                        <Button Uid="{Binding petID}" Name="Delete" Click="Delete_Click">Удалить</Button>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <StackPanel>
+                    <Button Click="Button_Click_1">Добавить запись</Button>
+                    <Button Click="Button_Click">Вернуться назад</Button>
+                    <TextBlock HorizontalAlignment="Center" FontSize="15">Сортировка и фильтрация</TextBlock>
+                    <TextBlock HorizontalAlignment="Center">Начните вводить тип животного:</TextBlock>
+                    <TextBox Name="TBFilter" TextChanged="TBFilter_TextChanged"></TextBox>
+                    <TextBlock HorizontalAlignment="Center">Сортировка по полу:</TextBlock>
+                    <ComboBox Name="CBFilter" SelectionChanged="CBFilter_SelectionChanged"></ComboBox>
+                    <Button Name="BtnSortUp" Click="BtnSortUp_Click" Height="19" Margin="300,0,303,0" Width="Auto">Сортировать по возрастанию</Button>
+                    <Button Name="BtnSortDown" Click="BtnSortDown_Click" Height="19" Margin="300,0,303,0" Width="Auto">Сортировать по убыванию</Button>
+                    <CheckBox HorizontalAlignment="Center" Name="ChBFilter" Checked="ChBFilter_Checked" Unchecked="ChBFilter_Unchecked">Только с фото</CheckBox>
+                    <!--пагинация-->
+                    <TextBlock HorizontalAlignment="Center" FontSize="16">Пагинация</TextBlock>
+                    <GroupBox Header="Введите количество записей на странице">
+                        <TextBox Name="txtPageCount" TextChanged="txtPageCount_TextChanged"/>
+                    </GroupBox>
+                    <!--Меню с номерами станиц-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Name="txtPrev" Uid="prev" Text=" Пред. " MouseDown="GoPage_MouseDown"/>
+                        <TextBlock Name="txt1" Uid="1" Text="{Binding  Path = Npage[0], StringFormat={}{0,3}}" Visibility="{Binding Visible[0]}" FontWeight="{Binding Bold[0]}" MouseDown="GoPage_MouseDown"/>
+                        <TextBlock Name="txt2" Uid="2" Text="{Binding  Path = NPage[1], StringFormat={}{0,3}}" Visibility="{Binding Visible[1]}" FontWeight="{Binding Bold[1]}" MouseDown="GoPage_MouseDown"/>
+                        <TextBlock Name="txt3" Uid="3" Text="{Binding  Path = NPage[2], StringFormat={}{0,3}}" Visibility="{Binding Visible[2]}" FontWeight="{Binding Bold[2]}" MouseDown="GoPage_MouseDown"/>
+                        <TextBlock Name="txt4" Uid="4" Text="{Binding  Path = NPage[3], StringFormat={}{0,3}}" Visibility="{Binding Visible[3]}" FontWeight="{Binding Bold[3]}" MouseDown="GoPage_MouseDown"/>
+                        <TextBlock Name="txt5" Uid="5" Text="{Binding  Path = NPage[4], StringFormat={}{0,3}}" Visibility="{Binding Visible[4]}" FontWeight="{Binding Bold[4]}" MouseDown="GoPage_MouseDown"/>
+                        <TextBlock Name="txtNext" Uid="next" Text=" След." MouseDown="GoPage_MouseDown"/>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+
+
+
+
+        </Grid>
+    </ScrollViewer>
+</Page>
